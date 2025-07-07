@@ -1,0 +1,361 @@
+%!TEX program = xelatex
+% 完整编译: xelatex -> biber/bibtex -> xelatex -> xelatex
+\documentclass[lang=cn,a4paper,newtx,bibstyle=gb7714-2015]{elegantpaper}
+
+\title{摆视通——基于YOLO的单摆实验AI辅助系统}
+\date{}
+\institute{第十一届湖北省大学生物理实验创新设计竞赛}
+
+% 本文档命令
+
+\usepackage{array}
+\usepackage{framed}
+\usepackage{subfigure}
+\usepackage[subfigure]{tocloft}
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{tabularx}
+\usepackage{titlesec} % 用于自定义标题格式
+
+
+% 定义三线表格式设置
+\newcommand{\threelinetablestyle}{%
+  \renewcommand{\arraystretch}{1.2}%
+  \setlength{\tabcolsep}{3.5pt}%
+  \small%
+}
+
+\pgfplotsset{compat=1.18}
+\numberwithin{equation}{section} % 设置公式按章节编号
+\renewcommand{\theequation}{\thesection-\arabic{equation}} % 将公式编号格式改为节号-公式号
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+% 设置目录标题居中
+\renewcommand{\contentsname}{\hfill\bfseries 目录\hfill}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+% 设置目录中标题与序号间的空格间距为0.5em
+\setlength{\cftsecnumwidth}{2em} % 设置节号宽度
+\setlength{\cftsubsecnumwidth}{2.5em} % 设置子节号宽度
+\setlength{\cftsubsubsecnumwidth}{3em} % 设置子子节号宽度
+\renewcommand{\cftsecaftersnum}{} % 移除节号后的默认点
+\renewcommand{\cftsubsecaftersnum}{} % 移除子节号后的默认点
+\renewcommand{\cftsubsubsecaftersnum}{} % 移除子子节号后的默认点
+\renewcommand{\cftsecpresnum}{\hfill} % 节号右对齐
+\renewcommand{\cftsubsecpresnum}{\hfill} % 子节号右对齐
+\renewcommand{\cftsubsubsecpresnum}{\hfill} % 子子节号右对齐
+\renewcommand{\cftsecaftersnum}{\hspace{0.5em}} % 节号后间距0.5em
+\renewcommand{\cftsubsecaftersnum}{\hspace{0.5em}} % 子节号后间距0.5em
+\renewcommand{\cftsubsubsecaftersnum}{\hspace{0.5em}} % 子子节号后间距0.5em
+
+
+% 使用titlesec设置标题格式，标题与序号之间空格为0.5em
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection}{0.5em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{0.5em}{} 
+
+\definecolor{main}{RGB}{2,38,62} % #02263E
+\definecolor{secondary}{RGB}{60,72,86} % #3C4856
+\definecolor{tertiary}{RGB}{160,172,189} % #A0ACBD
+
+% 定义三种文本框环境
+\newtcolorbox{MainBox}[1][]{%
+  enhanced,
+  title=#1,
+  colback=white!95!winered,
+  colframe=main,
+  fonttitle=\large\bfseries,
+  rounded corners,
+  boxrule=1pt,
+  width=0.9\linewidth,
+  center
+}
+
+\newtcolorbox{SecondaryBox}[1][]{%
+  enhanced,
+  title=#1,
+  colback=white!98!black,
+  colframe=secondary,
+  fonttitle=\large\bfseries,
+  rounded corners,
+  boxrule=1pt,
+  width=0.9\linewidth,
+  center
+}
+
+\newtcolorbox{TertiaryBox}[1][]{%
+  enhanced,
+  title=#1,
+  colback=white!95!black,
+  colframe=tertiary,
+  fonttitle=\large\bfseries,
+  rounded corners,
+  boxrule=1pt,
+  width=0.9\linewidth,
+  center
+}
+
+\addbibresource[location=local]{reference.bib} % 参考文献
+
+\ExecuteBibliographyOptions{doi=false, url=false} %参考文献不显示url和doi
+
+%\setcounter{tocdepth}{2} % 设置目录深度为2级标题
+
+\begin{document}
+
+\fancyhf{} % 清除所有页眉页脚
+\pagenumbering{gobble} % 隐藏页码
+% 插入封面
+\includepdf{images/cover.pdf}
+
+\newpage
+\input{chapters/abstract}
+
+\newpage
+\tableofcontents
+
+
+\fancyhead[R]{\kaishu \leftmark}
+\fancyhead[C]{\kaishu 第十一届湖北省大学生物理实验创新设计竞赛}
+\renewcommand{\headrulewidth}{0.4pt} % 页眉下方的横线
+\fancyfoot[C]{\thepage}
+\newpage
+\pagenumbering{arabic} % 重新开始页码计数
+\pagestyle{fancy}  % 激活fancy页面样式
+
+\input{chapters/introduction}
+\input{chapters/theory}
+\input{chapters/device}
+\input{chapters/measurement}
+\input{chapters/analysis}
+\input{chapters/performance}
+\input{chapters/innovation}
+\input{chapters/application}
+\input{chapters/conclusion}
+\input{chapters/contribution}
+
+\nocite{*}
+\printbibliography[heading=bibintoc, title=\ebibname]
+
+\appendix
+\appendixpage
+\addappheadtotoc
+
+\section{实验数据}
+\subsection{原始数据}
+
+\subsubsection{重力加速度测量结果}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{重力加速度测量结果}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{cclcccccccc}
+\toprule
+编号 & 测量摆长 & 使用的 & 最大 & 大摆角 & FFT周期 & FFT重力 & FFT误差 & Peak周期 & Peak重力 & Peak误差 \\
+ & (m) & 测量方法 & 角(°) & 修正 & (s) & (m/s²) & (\%) & (s) & (m/s²) & (\%) \\
+\midrule
+1 & 0.3505 & FFT, Peak & 5 & 1.000 & 1.191 & 9.738 & 0.57 & 1.192±0.008 & 9.718 & 0.77 \\
+2 & 0.3501 & FFT, Peak, Fit & 5 & 1.000 & 1.189 & 9.772 & 0.22 & 1.192±0.007 & 9.731 & 0.64 \\
+3 & 0.3499 & FFT, Peak & 5 & 1.000 & 1.187 & 9.806 & 0.13 & 1.192±0.008 & 9.720 & 0.75 \\
+4 & 0.3495 & FFT, Peak & 5 & 1.000 & 1.190 & 9.758 & 0.36 & 1.189±0.008 & 9.773 & 0.21 \\
+5 & 0.3500 & FFT, Peak, Fit & 5 & 1.000 & 1.184 & 9.849 & 0.56 & 1.190±0.008 & 9.758 & 0.36 \\
+\bottomrule
+\end{tabular}
+\label{tab:gravity_measurement}
+\end{table}
+\label{app:gravity_measurement}
+
+\subsubsection{摆长与周期的关系}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{摆长与周期的关系（钢小球）（标准重力加速度值：9.7936 m/s²）}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{cccccccccccc}
+\toprule
+摆长 & 最大 & 测量 & 未修正 & 未修正 & 未修正 & 大摆角 & 修正后 & 修正后 & 最终采用 & 最终重力 & 最终 \\
+(m) & 摆角(°) & 方法 & 周期(s) & 重力加速度 & 相对误差 & 修正系数 & 重力加速度 & 相对误差 & 方法 & 加速度 & 相对误差 \\
+ & & & & (m/s²) & (\%) & & (m/s²) & (\%) & & (m/s²) & (\%) \\
+\midrule
+0.33 & 5 & FFT & 1.156 & 9.745 & 0.5 & 1.000476 & 9.754 & 0.4 & Peak & 9.774 & 0.2 \\
+0.33 & 5 & Peak & 1.155 $\pm$ 0.008 & 9.765 & 0.29 & 1.000476 & 9.774 & 0.2 & Peak & 9.774 & 0.2 \\
+0.33 & 5 & Fit & 1.156 & 9.755 & 0.39 & 1.000476 & 9.765 & 0.3 & Peak & 9.774 & 0.2 \\
+0.34 & 5 & FFT & 1.174 & 9.737 & 0.58 & 1.000476 & 9.746 & 0.49 & Fit & 9.747 & 0.47 \\
+0.34 & 5 & Peak & 1.175 $\pm$ 0.014 & 9.722 & 0.73 & 1.000476 & 9.731 & 0.63 & Fit & 9.747 & 0.47 \\
+0.34 & 5 & Fit & 1.174 & 9.738 & 0.57 & 1.000476 & 9.747 & 0.47 & Fit & 9.747 & 0.47 \\
+0.35 & 5 & FFT & 1.193 & 9.715 & 0.8 & 1.000476 & 9.724 & 0.71 & Fit & 9.725 & 0.7 \\
+0.35 & 5 & Peak & 1.193 $\pm$ 0.008 & 9.711 & 0.85 & 1.000476 & 9.72 & 0.75 & Fit & 9.725 & 0.7 \\
+0.35 & 5 & Fit & 1.193 & 9.716 & 0.79 & 1.000476 & 9.725 & 0.7 & Fit & 9.725 & 0.7 \\
+0.36 & 5 & FFT & 1.195 & 9.96 & 1.7 & 1.000476 & 9.969 & 1.79 & Fit & 9.725 & 0.7 \\
+0.36 & 5 & Peak & 1.210 $\pm$ 0.008 & 9.7 & 0.95 & 1.000476 & 9.71 & 0.86 & Fit & 9.725 & 0.7 \\
+0.36 & 5 & Fit & 1.209 & 9.716 & 0.8 & 1.000476 & 9.725 & 0.7 & Fit & 9.725 & 0.7 \\
+0.37 & 5 & FFT & 1.228 & 9.684 & 1.12 & 1.000476 & 9.693 & 1.03 & Fit & 9.765 & 0.29 \\
+0.37 & 5 & Peak & 1.225 $\pm$ 0.008 & 9.734 & 0.61 & 1.000476 & 9.743 & 0.51 & Fit & 9.765 & 0.29 \\
+0.37 & 5 & Fit & 1.224 & 9.756 & 0.38 & 1.000476 & 9.765 & 0.29 & Fit & 9.765 & 0.29 \\
+\bottomrule
+\end{tabular}
+\label{tab:length_and_period}
+\end{table}
+\label{app:length_and_period}
+
+\subsubsection{大摆角的非线性修正效果}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{大摆角的非线性修正效果（钢小球）（标准重力加速度值：9.7936 m/s²）}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{cccccccccccc}
+\toprule
+摆长 & 最大 & 测量 & 未修正 & 未修正 & 未修正 & 大摆角 & 修正后 & 修正后 & 最终采用 & 最终重力 & 最终 \\
+(m) & 摆角(°) & 方法 & 周期(s) & 重力加速度 & 相对误差 & 修正系数 & 重力加速度 & 相对误差 & 方法 & 加速度 & 相对误差 \\
+ & & & & (m/s²) & (\%) & & (m/s²) & (\%) & & (m/s²) & (\%) \\
+\midrule
+0.35 & 5 & FFT & 1.193 & 9.715 & 0.8 & 1.000476 & 9.724 & 0.71 & Fit & 9.725 & 0.7 \\
+0.35 & 5 & Peak & 1.193 $\pm$ 0.008 & 9.711 & 0.85 & 1.000476 & 9.72 & 0.75 & Fit & 9.725 & 0.7 \\
+0.35 & 5 & Fit & 1.193 & 9.716 & 0.79 & 1.000476 & 9.725 & 0.7 & Fit & 9.725 & 0.7 \\
+0.35 & 10 & FFT & 1.19 & 9.758 & 0.36 & 1.001907 & 9.795 & 0.02 & FFT & 9.795 & 0.02 \\
+0.35 & 10 & Peak & 1.185 $\pm$ 0.045 & 9.832 & 0.39 & 1.001907 & 9.869 & 0.77 & FFT & 9.795 & 0.02 \\
+0.35 & 10 & Fit & 1.184 & 9.858 & 0.65 & 1.001907 & 9.895 & 1.04 & FFT & 9.795 & 0.02 \\
+0.35 & 15 & FFT & 1.183 & 9.878 & 0.87 & 1.004301 & 9.964 & 1.74 & Peak & 9.835 & 0.43 \\
+0.35 & 15 & Peak & 1.190 $\pm$ 0.040 & 9.751 & 0.43 & 1.004301 & 9.835 & 0.43 & Peak & 9.835 & 0.43 \\
+0.35 & 15 & Fit & 1.188 & 9.786 & 0.08 & 1.004301 & 9.87 & 0.78 & Peak & 9.835 & 0.43 \\
+0.35 & 20 & FFT & 1.19 & 9.764 & 0.3 & 1.007669 & 9.914 & 1.23 & Peak & 9.828 & 0.35 \\
+0.35 & 20 & Peak & 1.195 $\pm$ 0.047 & 9.679 & 1.17 & 1.007669 & 9.828 & 0.35 & Peak & 9.828 & 0.35 \\
+0.35 & 20 & Fit & 1.19 & 9.763 & 0.31 & 1.007669 & 9.913 & 1.22 & Peak & 9.828 & 0.35 \\
+0.35 & 25 & FFT & 1.215 & 9.358 & 4.45 & 1.012029 & 9.584 & 2.14 & Fit & 9.837 & 0.44 \\
+0.35 & 25 & Peak & 1.195 $\pm$ 0.031 & 9.672 & 1.25 & 1.012029 & 9.906 & 1.14 & Fit & 9.837 & 0.44 \\
+0.35 & 25 & Fit & 1.199 & 9.604 & 1.93 & 1.012029 & 9.837 & 0.44 & Fit & 9.837 & 0.44 \\
+\bottomrule
+\end{tabular}
+\label{tab:large_angle_correction}
+\end{table}
+\label{app:large_angle_correction}
+
+\subsubsection{阻尼特性测量结果}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{阻尼特性测量结果（塑料小球）}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{cccccccccccc}
+\toprule
+摆长 & 最大 & 摆球质量 & 初始 & n个周期后 & 周期数 & 周期 & 阻尼系数 & 衰减系数 & 固有频率 & 品质因数 & 衰减时间 \\
+(m) & 摆角(°) & (kg) & 振幅 $\theta_0$ & 振幅 $\theta'$ & n & T (s) & $\beta$ (N·s/m) & $\gamma$ (s$^{-1}$) & $\omega_0$ (rad/s) & Q & 常数 $\tau$ (s) \\
+\midrule
+0.8 & 5 & 0.004 & 349.46 & 115.53 & 33 & 1.788 & 0.000075 & 0.018762 & 3.5149 & 93.67 & 53.3 \\
+0.8 & 5 & 0.004 & 344.5 & 114.35 & 33 & 1.788 & 0.000075 & 0.018694 & 3.5148 & 94.01 & 53.49 \\
+0.8 & 5 & 0.004 & 347.64 & 115.01 & 33 & 1.789 & 0.000075 & 0.018735 & 3.5119 & 93.72 & 53.37 \\
+0.8 & 5 & 0.004 & 345.5 & 113.87 & 33 & 1.787 & 0.000075 & 0.01882 & 3.5158 & 93.41 & 53.13 \\
+0.8 & 5 & 0.004 & 349.34 & 112.48 & 33 & 1.788 & 0.000077 & 0.01921 & 3.5148 & 91.49 & 52.06 \\
+\bottomrule
+\end{tabular}
+\label{tab:damping_measurement}
+\end{table}
+\label{app:damping_measurement}
+
+\subsubsection{摆长对阻尼特性的影响}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{摆长对阻尼特性的影响}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{cccccccccccc}
+\toprule
+摆长 & 最大 & 摆球质量 & 初始 & n个周期后 & 周期数 & 周期 & 阻尼系数 & 衰减系数 & 固有频率 & 品质因数 & 衰减时间 \\
+(m) & 摆角(°) & (kg) & 振幅 $\theta_0$ & 振幅 $\theta'$ & n & T (s) & $\beta$ (N·s/m) & $\gamma$ (s$^{-1}$) & $\omega_0$ (rad/s) & Q & 常数 $\tau$ (s) \\
+\midrule
+0.4 & 5 & 0.009 & 233.59 & 197.34 & 13 & 1.278 & 0.000091 & 0.010147 & 4.9156 & 484.46 & 98.55 \\
+0.55 & 5 & 0.009 & 388.55 & 311.66 & 13 & 1.496 & 0.000102 & 0.011336 & 4.1996 & 370.46 & 88.21 \\
+0.7 & 5 & 0.009 & 465.3 & 397.97 & 8 & 1.683 & 0.000104 & 0.011606 & 3.7326 & 321.60 & 86.16 \\
+0.85 & 5 & 0.009 & 504.49 & 403.96 & 10 & 1.855 & 0.000108 & 0.011979 & 3.3872 & 282.76 & 83.48 \\
+1 & 5 & 0.009 & 529.58 & 428.9 & 8 & 2.004 & 0.000118 & 0.013151 & 3.135 & 238.38 & 76.04 \\
+\bottomrule
+\end{tabular}
+\label{tab:length_effect_on_damping}
+\end{table}
+
+\subsubsection{尺寸对阻尼特性的影响}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{尺寸对阻尼特性的影响}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{ccccccccccc}
+\toprule
+\multicolumn{11}{c}{塑料小球} \\
+\midrule
+摆长 & 最大 & 摆球质量 & 初始 & n个周期后 & 周期数 & 周期 & 阻尼系数 & 衰减系数 & 固有频率 & 衰减时间 \\
+(m) & 摆角(°) & (kg) & 振幅 $\theta_0$ & 振幅 $\theta'$ & n & T (s) & $\beta$ (N·s/m) & $\gamma$ (s$^{-1}$) & $\omega_0$ (rad/s) & $\tau$ (s) \\
+\midrule
+0.8 & 5 & 0.004 & 396.38 & 257.35 & 11 & 1.785 & 0.000088 & 0.022001 & 3.5203 & 45.45 \\
+0.8 & 5 & 0.004 & 399.69 & 266.9 & 10 & 1.785 & 0.00009 & 0.022622 & 3.52 & 44.21 \\
+0.8 & 5 & 0.004 & 396.81 & 256.31 & 11 & 1.785 & 0.000089 & 0.022263 & 3.5203 & 44.92 \\
+\midrule
+\multicolumn{11}{c}{塑料大球} \\
+\midrule
+0.8 & 5 & 0.009 & 363.11 & 296.93 & 10 & 1.777 & 0.000102 & 0.011324 & 3.5365 & 88.31 \\
+0.8 & 5 & 0.009 & 371.4 & 304.25 & 10 & 1.778 & 0.000101 & 0.011215 & 3.5332 & 89.17 \\
+0.8 & 5 & 0.009 & 351.34 & 266.38 & 13 & 1.777 & 0.000108 & 0.011984 & 3.536 & 83.45 \\
+\bottomrule
+\end{tabular}
+\label{tab:size_effect_on_damping}
+\end{table}
+\label{app:size_effect_on_damping}
+
+\subsubsection{质量对阻尼特性的影响}
+\begin{table}[H]
+\centering
+\threelinetablestyle
+\caption{质量对阻尼特性的影响}
+\setlength{\tabcolsep}{2pt}
+\footnotesize
+\begin{tabular}{ccccccccccc}
+\toprule
+\multicolumn{11}{c}{不锈钢小球0.8m摆长5度} \\
+\midrule
+编号 & 摆球质量 & 初始振幅 & n个周期后 & 周期数 & 周期 & 阻尼系数 & 衰减系数 & 固有频率 & 品质因数 & 衰减时间 \\
+ & (kg) & $\theta_0$ & 振幅 $\theta'$ & n & T (s) & $\beta$ (N·s/m) & $\gamma$ (s$^{-1}$) & $\omega_0$ (rad/s) & Q & $\tau$ (s) \\
+\midrule
+1 & 0.031 & 462.44 & 429.37 & 11 & 1.798 & 0.000116 & 0.00375 & 3.4936 & 931.68 & 266.68 \\
+2 & 0.031 & 479.24 & 445.9 & 11 & 1.798 & 0.000113 & 0.003645 & 3.4936 & 958.42 & 274.34 \\
+3 & 0.031 & 464.74 & 431.59 & 11 & 1.797 & 0.000116 & 0.003743 & 3.4965 & 934.10 & 267.15 \\
+\midrule
+\multicolumn{11}{c}{塑料小球0.8m摆长5度} \\
+\midrule
+1 & 0.004 & 396.38 & 257.35 & 11 & 1.785 & 0.000088 & 0.022001 & 3.5203 & 160.00 & 45.45 \\
+2 & 0.004 & 399.69 & 266.9 & 10 & 1.785 & 0.00009 & 0.022622 & 3.52 & 155.60 & 44.21 \\
+3 & 0.004 & 396.81 & 256.31 & 11 & 1.785 & 0.000089 & 0.022263 & 3.5203 & 158.12 & 44.92 \\
+\bottomrule
+\end{tabular}
+\label{tab:mass_effect_on_damping}
+\end{table}
+\label{app:mass_effect_on_damping}
+
+\section{软件代码}
+\label{app:software_code}
+\subsection{视频处理代码}
+\lstinputlisting[language=Python, caption=视频处理代码, label=code:video_processing]{code/tracker.py}
+\subsection{数据分析代码}
+\lstinputlisting[language=Python, caption=数据分析代码, label=code:data_analysis]{code/analyzer.py}
+\subsection{GUI代码}
+非核心功能代码，用于构建软件交互界面，篇幅过长，不作展示。
+
+\end{document}

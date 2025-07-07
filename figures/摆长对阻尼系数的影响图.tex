@@ -1,0 +1,41 @@
+\begin{tikzpicture}[scale=0.5]
+    % 设置坐标系
+    \begin{axis}[
+        width=0.85\textwidth,
+        height=0.6\textwidth,
+        xlabel={摆长 $l$ (m)},
+        ylabel={阻尼系数 $\beta$ (N$\cdot$s/m)},
+        xlabel style={font=\small},
+        ylabel style={font=\small},
+        xmin=0.35, xmax=1.05,
+        ymin=0.00008, ymax=0.00012,
+        tick align=inside,
+        xtick={0.4, 0.55, 0.7, 0.85, 1.0},
+        ytick={0.00009, 0.000095, 0.0001, 0.000105, 0.00011, 0.000115, 0.00012},
+        yticklabel style={/pgf/number format/fixed, /pgf/number format/precision=6},
+        ymajorgrids=true,
+        xmajorgrids=true,
+        grid style={gray!30, solid, line width=0.5pt},
+        legend style={at={(0.05,0.95)}, anchor=north west, font=\small, draw},
+        tick label style={font=\small},
+        title style={font=\bfseries\small}
+    ]
+    
+    % 绘制数据点
+    \addplot[only marks, mark=*, mark size=3pt, mark options={fill=blue}] 
+    coordinates {
+        (0.40, 0.000091)
+        (0.55, 0.000102)
+        (0.70, 0.000104)
+        (0.85, 0.000108)
+        (1.00, 0.000118)
+    };
+    
+    % 绘制拟合线
+    \addplot[orange, dashed, line width=1.5pt, domain=0.35:1.05] {0.00004*x + 0.0000766};
+    
+    % 添加图例
+    \legend{实验数据, {线性拟合: $\beta = 4.00 \times 10^{-5} \cdot l + 7.66 \times 10^{-5}$, $R^2 = 0.9395$}};
+    
+    \end{axis}
+\end{tikzpicture}

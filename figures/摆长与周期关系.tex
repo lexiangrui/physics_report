@@ -1,0 +1,41 @@
+\begin{tikzpicture}[scale=0.8]
+    % 设置坐标系
+    \begin{axis}[
+        width=0.85\textwidth,
+        height=0.6\textwidth,
+        xlabel={摆长平方根 $\sqrt{l}$ (m$^{1/2}$)},
+        ylabel={周期 $T$ (s)},
+        xlabel style={font=\small},
+        ylabel style={font=\small},
+        xmin=0.565, xmax=0.615,
+        ymin=1.14, ymax=1.24,
+        tick align=inside,
+        xtick={0.57, 0.58, 0.59, 0.60, 0.61},
+        ytick={1.15, 1.17, 1.19, 1.21, 1.23},
+        ymajorgrids=true,
+        xmajorgrids=true,
+        grid style={gray!30, solid, line width=0.5pt},
+        legend style={at={(0.05,0.95)}, anchor=north west, font=\small, draw},
+        tick label style={font=\small},
+        title style={font=\bfseries\small}
+    ]
+    
+    % 绘制数据点（带误差棒）
+    \addplot[only marks, mark=*, mark size=3pt, mark options={fill=blue}, error bars/.cd, y dir=both, y explicit, 
+    error bar style={line width=0.8pt, color=black}, error mark options={line width=0.8pt, mark size=3pt, rotate=90}] 
+    coordinates {
+        (0.5745, 1.155) +- (0, 0.0012)  % sqrt(0.33)
+        (0.5831, 1.174) +- (0, 0.0028)  % sqrt(0.34)
+        (0.5916, 1.193) +- (0, 0.0042)  % sqrt(0.35)
+        (0.6000, 1.210) +- (0, 0.0042)  % sqrt(0.36)
+        (0.6083, 1.225) +- (0, 0.0018)  % sqrt(0.37)
+    };
+    
+    % 绘制拟合线
+    \addplot[orange, dashed, line width=1.5pt, domain=0.565:0.615] {2.0463*x - 0.0190};
+    
+    % 添加图例
+    \legend{实验数据, {理论拟合: $T = 2.0463 \cdot \sqrt{l} - 0.0190$，$R^2 = 0.9995$}};
+    
+    \end{axis}
+\end{tikzpicture}

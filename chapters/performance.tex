@@ -1,0 +1,470 @@
+\section{性能指标}
+\subsection{测量范围}
+本系统能够测量的物理量及其范围如下：
+
+\begin{table}[ht]
+\centering
+\caption{系统测量参数范围与精度}
+\begin{tabular}{@{}c c c c@{}}
+\toprule
+\textbf{测量参数} & \textbf{测量范围} & \textbf{分辨率} & \textbf{限制因素} \\
+\midrule
+单摆周期 $T$ & 0.5 s - 10 s & 16.7 ms & 摄像机帧率 \\
+单摆摆长 $l$ & 0.3 m - 1.2 m & 0.001 m & 视觉识别精度 \\
+振幅角度 $\theta$ & $0.1^{\circ}$ - $45^{\circ}$ & $0.1^{\circ}$ & 视觉识别精度 \\
+阻尼系数 $\beta$ & 0.00001 - 1.0 N$\cdot$s/m & 0.00001 N$\cdot$s/m & 多周期振幅衰减测量精度 \\
+\bottomrule
+\end{tabular}
+\label{tab:measurement_range}
+\end{table}
+
+系统测量范围的主要特性与限制：
+
+\begin{enumerate}[leftmargin=*]
+    \item 周期测量范围：系统可测量0.5 s至10 s的单摆周期，覆盖了教学实验中常见的摆长范围（0.1 m至2.5 m）。系统最小分辨率受限于摄像机帧率（60 FPS下为16.7 ms）。
+    
+    \item 摆长测量范围：系统支持0.3 m至1.2 m的摆长测量，摆长过短时，周期较小，受限于摄像机帧率；摆长过长时，摆球运动过快，并且圆锥摆效应显著，影响测量精度。
+    
+    \item 振幅测量范围：系统支持$0.1^{\circ}$至$45^{\circ}$的振幅角测量。较大振幅（$>45^{\circ}$）下会产生明显非线性效应，超出小角度近似适用范围；极小振幅（$<0.1^{\circ}$）下像素分辨率成为限制因素。
+        
+    \item 阻尼特性测量：系统可精确捕捉0.00001至1.0 N$\cdot$s/m范围内的阻尼系数变化，适用于空气阻尼和额外阻尼装置的测量。高阻尼环境（如液体中）需使用专用摄像设备。
+\end{enumerate}
+
+
+\subsection{不确定度}
+本项目中涉及到两类不确定度计算：A类不确定度（统计分析法）和B类不确定度（非统计分析法）。
+
+\subsubsection{不确定度基本原理与公式}
+
+\paragraph{A类不确定度}
+A类不确定度是通过统计分析一组重复测量数据得到的标准不确定度，其计算公式为：
+
+\begin{equation}
+u_A(x) = \sqrt{\frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n(n-1)}}
+\end{equation}
+
+其中：$x_i$ 为第i次测量结果，$\bar{x}$ 为n次测量的算术平均值，$n$ 为测量次数。
+
+\paragraph{B类不确定度}
+B类不确定度是根据仪器精度、系统误差等非统计方法评估的不确定度，计算公式为：
+
+\begin{equation}
+u_B(x) = \frac{\Delta x}{\sqrt{3}}
+\end{equation}
+
+其中$\Delta x$为测量仪器的分辨力或最大允差。
+
+\paragraph{合成不确定度}
+将A类和B类不确定度合成得到总不确定度：
+
+\begin{equation}
+u_c(x) = \sqrt{u_A^2(x) + u_B^2(x)}
+\end{equation}
+
+\subsubsection{重力加速度测量不确定度结果}
+
+根据0.35 m摆长的五组实验数据进行分析，计算重力加速度测量的不确定度如下：
+
+\begin{enumerate}[leftmargin=*]
+\item 基础数据
+
+摆长、周期和重力加速度的测量值数据见附录\ref{app:length_and_period}，其中摆长平均值为0.3500 m，周期平均值为1.1888 s，重力加速度平均值为9.7846 m/s$^2$。
+
+\item 摆长$l$的不确定度
+
+摆长的A类不确定度计算：
+\begin{equation}
+u_A(l) = \sqrt{\frac{\sum_{i=1}^{n}(l_i-\bar{l})^2}{n(n-1)}} = 0.00018\text{ m}
+\end{equation}
+
+摆长的B类不确定度：
+\begin{equation}
+u_B(l) = \frac{1.0\text{ mm}}{\sqrt{3}} = 0.00058\text{ m}
+\end{equation}
+
+摆长的合成不确定度：
+\begin{equation}
+u_c(l) = \sqrt{u_A^2(l) + u_B^2(l)} = \sqrt{(0.00018)^2 + (0.00058)^2} = 0.00061\text{ m}
+\end{equation}
+
+\item 周期$T$的不确定度
+
+周期的A类不确定度计算：
+\begin{equation}
+u_A(T) = \sqrt{\frac{\sum_{i=1}^{n}(T_i-\bar{T})^2}{n(n-1)}} = 0.00068\text{ s}
+\end{equation}
+
+周期的B类不确定度：
+\begin{equation}
+u_B(T) = \frac{1}{60\text{ FPS}\cdot\sqrt{3}} = 0.00962\text{ s}
+\end{equation}
+
+周期的合成不确定度：
+\begin{equation}
+u_c(T) = \sqrt{u_A^2(T) + u_B^2(T)} = \sqrt{(0.00068)^2 + (0.00962)^2} = 0.00964\text{ s}
+\end{equation}
+
+\item \textbf{重力加速度$g$的不确定度}
+
+根据单摆公式$g = \frac{4\pi^2l}{T^2}$，重力加速度的合成相对不确定度计算如下：
+
+各分量的相对不确定度：
+\begin{align}
+\frac{u_c(l)}{l} &= \frac{0.00061}{0.3500} = 0.00174 \\
+2\frac{u_c(T)}{T} &= 2 \times \frac{0.00964}{1.1888} = 0.01621
+\end{align}
+
+重力加速度的合成相对不确定度：
+\begin{equation}
+\frac{u_c(g)}{g} = \sqrt{\left(\frac{u_c(l)}{l}\right)^2 + \left(2\frac{u_c(T)}{T}\right)^2} = \sqrt{(0.00174)^2 + (0.01621)^2} = 0.01630 = 1.63\%
+\end{equation}
+
+对于平均重力加速度$g = 9.7846 \text{ m/s}^2$，重力加速度的绝对不确定度为：
+\begin{equation}
+u_c(g) = g \times 0.01630 = 9.7846 \times 0.01630 = 0.1595\text{ m/s}^2
+\end{equation}
+
+取覆盖因子k=2（对应95\%置信度），拓展不确定度为：
+\begin{equation}
+U = k \cdot u_c(g) = 2 \cdot 0.1595 = 0.3190\text{ m/s}^2
+\end{equation}
+
+因此，重力加速度的最终测量结果可表示为：
+\begin{equation}
+g = (9.785 \pm 0.319)\text{ m/s}^2 \quad (k=2)
+\end{equation}
+\end{enumerate}
+
+从误差分析可知，周期测量不确定度是主要误差来源，贡献了约99.1\%的总不确定度，主要是因为相机的帧率限制，若将相机帧率提高到120 FPS，理论上可将总相对不确定度降低至约0.88\%，提升测量精度约46\%。
+
+\subsubsection{阻尼系数测量的不确定度计算}
+
+阻尼系数的A类不确定度主要来源于振幅测量的随机误差：
+
+\begin{equation}
+u_A(A) = \sqrt{\frac{\sum_{i=1}^{n}(A_i-\bar{A})^2}{n(n-1)}}
+\end{equation}
+
+其中$A_i$为第i次测量的像素振幅值，$\bar{A}$为n次测量的平均值。
+
+
+阻尼系数的B类不确定度主要来源于YOLO模型的位置检测精度。YOLO算法的位置检测精确度可通过以下方法推导：
+
+YOLO模型输出边界框的坐标(x, y, w, h)，其中(x, y)为目标中心点坐标，根据测试验证，在理想条件下YOLO11模型的目标中心点定位精度约为边界框宽度的1/50,可估算得到位置检测的标准不确定度：
+
+\begin{equation}
+u_B(A) = \frac{\Delta A}{\sqrt{3}}
+\end{equation}
+
+其中$\Delta A=\frac{1}{50}w$，$w$为边界框的宽度。
+
+根据阻尼系数计算公式 $\beta = \frac{m}{nT}\ln\left(\frac{A_0}{A_n}\right)$,
+由于摆球质量$m$为给定的常数值，不考虑其不确定度，所以阻尼系数$\beta$的合成相对不确定度为：
+
+\begin{equation}
+\frac{u_c(\beta)}{\beta} = \sqrt{\left(\frac{u_c(T)}{T}\right)^2 + \left(\frac{u_c(A_0)}{A_0 \ln(A_0/A_n)}\right)^2 + \left(\frac{u_c(A_n)}{A_n \ln(A_0/A_n)}\right)^2}
+\end{equation}
+
+其中：$u_c(A_0) = \sqrt{u_A^2(A_0) + u_B^2(A_0)}$和$u_c(A_n) = \sqrt{u_A^2(A_n) + u_B^2(A_n)}$分别为初始振幅和第n个周期振幅的合成不确定度。
+
+阻尼系数$\beta$的合成相对不确定度是关于$\frac{A_0}{A_n}$的函数，为了找到阻尼系数测量的最优条件，本团队需要分析振幅比值对不确定度的影响。定义振幅比 $R = \frac{A_0}{A_n}$，则阻尼系数的相对不确定度可表示为：
+    \begin{equation}
+        \frac{u_c(\beta)}{\beta} = \sqrt{\left(\frac{u_c(T)}{T}\right)^2 + \frac{u_c(A_0)^2 + u_c(A_n)^2R^2}{A_0^2 (\ln R)^2}}
+    \end{equation}
+    
+    对$R > 1$求极值，令$\frac{\partial}{\partial R}\left(\frac{u_c(\beta)}{\beta}\right) = 0$，可得：
+    
+    \begin{equation}
+        2u_c(A_n)^2R (\ln R)^2 = (u_c(A_0)^2 + u_c(A_n)^2R^2)\frac{2\ln R}{R} \Rightarrow u_c(A_n)^2R^2 (\ln R - 1) = u_c(A_0)^2
+    \end{equation}
+    
+    也就是说，最优的振幅比满足：
+    
+    \begin{equation}
+        R^2(\ln R-1) = \frac{u_c(A_0)^2}{u_c(A_n)^2}
+    \end{equation}
+    
+    这个方程的解可以用Lambert W函数\textsuperscript{\cite{R1996On}}表出。记$k = \frac{u_c(A_0)}{u_c(A_n)}$，$x = 2k^2e^{-2}$，则：
+    
+    \begin{equation}
+        R^2 = \frac{2k^2}{W(x)} \Rightarrow R = \sqrt{\frac{2k^2}{W(2k^2e^{-2})}} = \frac{u_c(A_0)}{u_c(A_n)}\sqrt{\frac{2}{W(2(u_c(A_0)/u_c(A_n))^2e^{-2})}}
+    \end{equation}
+    由于初始振幅和第n个周期振幅的不确定度近似相等，故$k \approx 1$，则上式可以简化为：
+    \begin{equation}
+        R = \sqrt{\frac{2}{W(2e^{-2})}}
+    \end{equation}
+    数值上有
+    \begin{equation}
+        2e^{-2} \approx 0.27067, \quad W(0.27067) \approx 0.2180,
+    \end{equation}
+    
+    于是
+    \begin{equation}
+        R \approx \sqrt{\frac{2}{0.2180}} \approx 3.03.
+    \end{equation}
+    
+    这表明，当振幅比值约为3.03时，阻尼系数的测量不确定度最小。换句话说，为获得最佳测量精度，应当选择初始振幅与第n个周期振幅之比接近3.03的数据点进行计算。在实际测量中，可以通过选择合适的周期数n来实现这一比值。
+    
+\subsubsection{阻尼系数测量不确定度结果}
+
+通过对摆长0.8 m条件下的阻尼系数测量数据进行分析，本团队获得了阻尼系数测量的详细不确定度计算结果。
+
+基于测量数据（摆长L=0.8 m，摆球质量m=0.004 kg，周期数n=33，小球像素直径=100像素），对阻尼系数的不确定度进行如下计算：
+
+\begin{enumerate}[leftmargin=*]
+\item 周期T的不确定度
+
+测量得到的周期数据详见附录\ref{app:damping_measurement}，平均值为1.788 s。
+
+周期T的A类不确定度计算：
+\begin{equation}
+u_A(T) = \sqrt{\frac{\sum_{i=1}^{n}(T_i-\bar{T})^2}{n(n-1)}} = 0.00032\text{ s}
+\end{equation}
+
+周期T的B类不确定度：
+\begin{equation}
+u_B(T) = \frac{1}{60\text{ FPS}\cdot\sqrt{3}} = 0.00962\text{ s}
+\end{equation}
+
+周期T的合成不确定度：
+\begin{equation}
+u_c(T) = \sqrt{u_A^2(T) + u_B^2(T)} = 0.00963\text{ s}
+\end{equation}
+
+\item 振幅的不确定度
+
+初始振幅$A_0$和第n个周期振幅$A_n$的数据详见附录\ref{app:damping_measurement}。初始振幅平均值为347.29像素，第n个周期振幅平均值为114.25像素。
+
+振幅的A类不确定度：
+\begin{equation}
+u_A(A_0) = 0.91\text{ 像素}, \quad u_A(A_n) = 0.47\text{ 像素}
+\end{equation}
+
+由于摆球像素直径为100像素，故$w=100$，振幅的B类不确定度：
+\begin{equation}
+\Delta A = \frac{w}{50} = \frac{100}{50} = 2\text{ 像素}
+\end{equation}
+
+\begin{equation}
+u_B(A) = \frac{\Delta A}{\sqrt{3}} = \frac{2}{\sqrt{3}} = 1.155\text{ 像素}
+\end{equation}
+
+振幅的合成不确定度：
+\begin{equation}
+u_c(A_0) = \sqrt{u_A^2(A_0) + u_B^2(A)} = 1.47\text{ 像素}
+\end{equation}
+
+\begin{equation}
+u_c(A_n) = \sqrt{u_A^2(A_n) + u_B^2(A)} = 1.25\text{ 像素}
+\end{equation}
+
+\item \textbf{阻尼系数$\beta$的不确定度}
+
+根据阻尼系数计算公式$\beta = \frac{m}{nT}\ln\left(\frac{A_0}{A_n}\right)$，计算阻尼系数的相对不确定度：
+
+振幅比的自然对数：$\ln\left(\frac{A_0}{A_n}\right) = \ln\left(\frac{347.29}{114.25}\right) = 1.11$
+
+各分量的相对不确定度：
+\begin{align}
+\frac{u_c(T)}{T} &= \frac{0.00963}{1.788} = 0.00539 \\
+\frac{u_c(A_0)}{A_0 \ln(A_0/A_n)} &= \frac{1.47}{347.29 \cdot 1.11} = 0.00381 \\
+\frac{u_c(A_n)}{A_n \ln(A_0/A_n)} &= \frac{1.25}{114.25 \cdot 1.11} = 0.00985
+\end{align}
+
+阻尼系数的合成相对不确定度：
+\begin{equation}
+\frac{u_c(\beta)}{\beta} = \sqrt{\left(\frac{u_c(T)}{T}\right)^2 + \left(\frac{u_c(A_0)}{A_0 \ln(A_0/A_n)}\right)^2 + \left(\frac{u_c(A_n)}{A_n \ln(A_0/A_n)}\right)^2} = 0.01163 = 1.16\%
+\end{equation}
+
+对于平均阻尼系数$\beta = 0.000075 \text{ N}\cdot\text{s/m}$，阻尼系数的绝对不确定度为：
+\begin{equation}
+u_c(\beta) = \beta \cdot 0.01163 = 0.000075 \cdot 0.01163 = 8.72 \times 10^{-7} \text{ N}\cdot\text{s/m}
+\end{equation}
+
+取覆盖因子k=2（对应95\%置信度），拓展不确定度为：
+\begin{equation}
+U = k \cdot u_c(\beta) = 2 \cdot 8.72 \times 10^{-7} = 1.74 \times 10^{-6} \text{ N}\cdot\text{s/m}
+\end{equation}
+
+因此，阻尼系数的最终测量结果可表示为：
+\begin{equation}
+\beta = (7.5 \pm 0.17) \times 10^{-5} \text{ N}\cdot\text{s/m} \quad (k=2)
+\end{equation}
+\end{enumerate}
+
+\subsection{响应时间}
+本系统的响应时间主要取决于深度学习模型的推理速度，系统采用了 Ultralytics 最新开发的 YOLO11 系列模型进行目标检测与跟踪。根据官方数据和实际测试，系统响应性能如下：
+
+\begin{table}[H]
+\centering
+\caption{不同平台下系统响应时间}
+\begin{tabular}{@{}c c c c@{}}
+\toprule
+\textbf{硬件平台} & \textbf{模型规格} & \textbf{推理速度(FPS)} & \textbf{响应延迟(ms)} \\
+\midrule
+NVIDIA T4 (TensorRT) & YOLO11n & 666.7 & 1.5 \\
+CPU ONNX运行时 & YOLO11n & 17.8 & 56.1 \\
+本系统实际环境 (GPU) & YOLO11n & 52.60 & 19.01 \\
+本系统实际环境 (CPU) & YOLO11n & 21.00 & 47.62 \\
+\bottomrule
+\end{tabular}
+\label{tab:response_time}
+\end{table}
+
+本系统最终采用 YOLO11n 模型作为核心检测算法，该模型具有2.6 M参数量和6.5 B FLOPs计算量，在640×640像素输入分辨率下可达到39.5 mAP(val)的检测精度。在标准实验室环境（配备GPU加速的工作站）下可提供约120 FPS的处理能力，实际端到端响应延迟约为8.3 ms。
+
+本项目测试环境的GPU为NVIDIA GeForce RTX 4060 Laptop GPU，CPU为AMD Ryzen 9 7940H。GPU环境下，系统实际达到约52.6 FPS的处理能力，端到端响应延迟约为19.01 ms。即使在CPU环境下，系统仍能维持21.0 FPS的处理帧率（约47.62 ms响应时间）。这一性能表明，系统在主流硬件配置下可以稳定运行，为教学实验提供流畅的视觉分析体验。
+
+\subsection{实验时长}
+实验时长是评估系统实用性的重要指标。本系统通过视觉技术与深度学习算法实现了单摆实验全过程的自动化，显著缩短了实验时间。
+
+\begin{table}[ht]
+\centering
+\caption{传统方法与本系统实验时长对比}
+\setlength{\tabcolsep}{7mm}
+\begin{tabular}{@{}c c c c@{}}
+\toprule
+\textbf{实验类型} & \textbf{传统方法} & \textbf{本系统} & \textbf{时间节省} \\
+\midrule
+重力加速度测量 & 25-30 min & 5-8 min & 70-80\% \\
+阻尼系数测量 & 40-50 min & 10-12 min & 75-80\% \\
+\bottomrule
+\end{tabular}
+\label{tab:experiment_duration}
+\end{table}
+
+
+本系统实验时长主要包含以下几个环节：
+
+\begin{enumerate}[leftmargin=*]
+    \item 系统准备时间：包括系统启动、摄像机设置与校准，通常需要2-3 min。
+
+    \item 数据采集时间：系统能够以60 FPS的帧率实时捕获摆球运动，对于重力加速度测量实验，典型的数据采集时间为：
+        \begin{itemize}
+            \item 单周期测量：1-2 s
+            \item 多周期连续测量（5-10个周期）：10-20 s
+            \item 阻尼特性测量（30-40个周期）：1-2 min
+        \end{itemize}
+    
+    \item 数据处理时间：将录制的视频使用本系统进行处理，系统处理时间极短：
+        \begin{itemize}
+            \item GPU模式下：系统达到52.6 FPS，处理10 s的视频数据约10 s
+            \item CPU模式下：系统达到21.0 FPS，处理10 s的视频数据约28 s
+        \end{itemize}
+    
+    \item 结果分析与导出时间：系统自动计算物理参数并生成可视化图表，速度极快，几乎可以忽略不计。
+\end{enumerate}
+
+\subsection{系统鲁棒性评估}
+
+系统鲁棒性是保证实验稳定性的关键指标，本节将从环境适应性和抗干扰能力两个方面进行评估。
+
+\subsubsection{环境适应性}
+
+系统在不同实验环境下的适应性测试结果：
+
+\begin{table}[ht]
+\centering
+\caption{系统环境适应性测试结果}
+\begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}}c c c c@{}}
+\toprule
+\textbf{环境因素} & \textbf{变化范围} & \textbf{测量误差增量} & \textbf{系统可用性} \\
+\midrule
+光照条件 & 50-1000 lux & <0.5\% & 完全可用 \\
+背景复杂度 & 简单-复杂 & <1.2\% & 完全可用 \\
+摄像机角度偏移 & $\pm15°$ & <2.0\% & 完全可用 \\
+摄像机距离变化 & 0.8-2.5 m & <1.5\% & 完全可用 \\
+背景干扰物 & 无-中度 & <2.5\% & 基本可用 \\
+\bottomrule
+\end{tabular*}
+\label{tab:environment_adaptability}
+\end{table}
+
+系统在训练阶段，采集了大量不同光照条件下的数据，并在训练时开启了多尺度训练，得益于YOLO目标检测算法的高效性，可以适应不同光照环境，通过深度学习分割技术，有效隔离背景干扰。
+
+\subsubsection{抗干扰能力}
+
+系统对各类干扰的抵抗能力测试：
+
+\begin{table}[ht]
+\centering
+\caption{系统抗干扰能力评估}
+\begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}}c c c@{}}
+\toprule
+\textbf{干扰类型} & \textbf{传统方法} & \textbf{本系统} \\
+\midrule
+短暂遮挡 (<0.5s) & 实验失败 & 自动恢复 \\
+光照突变 & 实验失败 & 自动调整继续 \\
+摄像机轻微抖动 & 测量失真 & 自动校正 \\
+误操作（开始/停止） & 需重新进行 & 可恢复继续 \\
+\bottomrule
+\end{tabular*}
+\label{tab:interference_resistance}
+\end{table}
+
+系统抗干扰关键技术：
+
+\begin{enumerate}[leftmargin=*]
+    \item 轨迹预测与恢复：利用卡尔曼滤波技术，在短暂遮挡情况下实现位置预测与轨迹恢复
+    \item 异常数据检测：基于统计模型自动识别与剔除异常数据点
+    \item 实验状态持久化：系统定期保存实验状态，支持实验中断后的恢复
+\end{enumerate}
+
+\subsection{成本分析}
+
+本系统的硬件成本较低，软件成本完全开源免费。与传统实验设备相比，本系统具有显著的成本优势。
+
+\subsubsection{硬件成本分析}
+
+本系统硬件成本主要包括实验装置、辅助设备和计算设备三部分。实验装置和辅助设备成本详见表\ref{tab:hardware_cost}。
+
+\begin{table}[H]
+\centering
+\caption{系统硬件成本明细}
+\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}c c c@{}}
+\toprule
+\textbf{设备类型} & \textbf{设备名称} & \textbf{成本（元）} \\
+\midrule
+\multirow{2}{*}{实验装置} & 标准教学用单摆装置 & 26.8 \\
+ & 刻度尺（卷尺） & 8.0 \\
+\midrule
+\multirow{2}{*}{辅助设备} & 三脚架 & 30.0 \\
+ & USB型外接摄像头 & 89.0 \\
+\midrule
+\multirow{2}{*}{摄像方案} & 方案一：手机或数码相机（自备） & 0.0 \\
+ & 方案二：USB型外接摄像头 & 89.0 \\
+\midrule
+计算设备 & 普通PC或笔记本电脑（实验室现有设备） & 0.0 \\
+\midrule
+\multirow{2}{*}{总成本} & 方案一（使用自备摄像设备） & 64.8 \\
+ & 方案二（使用USB摄像头） & 153.8 \\
+\bottomrule
+\end{tabular*}
+\label{tab:hardware_cost}
+\end{table}
+
+硬件成本特点：
+\begin{enumerate}[leftmargin=*]
+    \item 单摆装置：采用标准教学用单摆装置，单价26.8元，为一次性投入。
+    
+    \item 辅助设备：三脚架30元，刻度尺（卷尺）8元，均为通用设备，可用于多种实验。
+    
+    \item 摄像设备：系统支持两种摄像方案：
+    \begin{itemize}
+        \item 方案一：利用学生自带的手机或数码相机，不计入额外成本。
+        \item 方案二：使用USB型外接摄像头，单价89元，提供更稳定的图像质量。
+    \end{itemize}
+    
+    \item 计算设备：系统支持在普通PC或笔记本电脑上运行，可利用实验室现有设备，无需额外购置。
+\end{enumerate}
+
+\subsubsection{软件成本分析}
+\begin{enumerate}[leftmargin=*]
+    \item 系统采用开源软件架构，所有核心组件均为免费开源软件。
+    
+    \item 基于Python开发，使用开源深度学习框架，无需支付商业软件授权费用。
+    
+    \item 系统维护和更新成本极低，主要依赖开源社区支持。
+\end{enumerate}
+
+
